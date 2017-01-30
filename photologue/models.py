@@ -9,7 +9,6 @@ import exifread
 import unicodedata
 from PIL import Image, ImageFile, ImageFilter, ImageEnhance
 
-from django.utils.timezone import now
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -158,8 +157,7 @@ class TagField(models.CharField):
 
 @python_2_unicode_compatible
 class Gallery(models.Model):
-    date_added = models.DateTimeField(_('date published'),
-                                      default=now)
+    date_added = models.DateTimeField(_('date published'), auto_now_add=True)
     title = models.CharField(_('title'),
                              max_length=250,
                              unique=True)
@@ -513,8 +511,7 @@ class Photo(ImageModel):
                             help_text=_('A "slug" is a unique URL-friendly title for an object.'))
     caption = models.TextField(_('caption'),
                                blank=True)
-    date_added = models.DateTimeField(_('date added'),
-                                      default=now)
+    date_added = models.DateTimeField(_('date added'), auto_now_add=True)
     is_public = models.BooleanField(_('is public'),
                                     default=True,
                                     help_text=_('Public photographs will be displayed in the default views.'))
